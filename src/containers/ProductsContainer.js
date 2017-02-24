@@ -6,9 +6,10 @@ import {
   editProduct,
   removeProduct
 } from '../actions/products'
-import Products from '../components/Products'
+import ProductList from '../components/products/ProductList'
 
 class ProductsContainer extends Component {
+  
   static propTypes = {
     products: PropTypes.array.isRequired,
     isLoading: PropTypes.bool.isRequired,
@@ -37,7 +38,7 @@ class ProductsContainer extends Component {
   render() {
     const { products, isLoading, dispatch } = this.props
     return (
-      <Products 
+      <ProductList 
         products={products}
         isLoading={isLoading}
         createOrEditProduct={this.createOrEditProduct.bind(this)}

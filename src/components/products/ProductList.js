@@ -1,7 +1,9 @@
 import React, { Component, PropTypes } from 'react'
-import { Table, ButtonToolbar, Button, Modal, Form, FormGroup, FormControl, Col, ControlLabel } from 'react-bootstrap'
+import { Table, Button, ButtonToolbar } from 'react-bootstrap'
+import ProductModal from './ProductModal'
+import DeleteProductModal from './DeleteProductModal'
 
-class Products extends Component {
+class ProductList extends Component {
 
   static propTypes = {
     products: PropTypes.array.isRequired,
@@ -113,25 +115,27 @@ class Products extends Component {
             </tr>
           </thead>
           <tbody>
-            {!isLoading
-              ? products.map((product, index) => (
-                <tr key={index}>
-                  <td>{index + 1}</td>
-                  <td>{product.name}</td>
-                  <td>{product.price}</td>
-                  <td>
-                    <ButtonToolbar>
-                      <Button bsStyle="info" onClick={() => this.setState({ showProductModal: true, product })}>
-                        <span className="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                      </Button>
-                      <Button bsStyle="danger" onClick={() => this.setState({ showDeleteProductModal: true, product })}>
-                        <span className="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                      </Button>
-                    </ButtonToolbar>
-                  </td>
-                </tr>
-              ))
-              : <tr><td colSpan={3}><h2>Loading...</h2></td></tr>
+            {isLoading
+              ? <tr><td colSpan={3}><h2>Loading...</h2></td></tr>
+              : products.length
+                ? products.map((product, index) => (
+                  <tr key={index}>
+                    <td>{index + 1}</td>
+                    <td>{product.name}</td>
+                    <td>{product.price}</td>
+                    <td>
+                      <ButtonToolbar>
+                        <Button bsStyle="info" onClick={() => this.setState({ showProductModal: true, product })}>
+                          <span className="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                        </Button>
+                        <Button bsStyle="danger" onClick={() => this.setState({ showDeleteProductModal: true, product })}>
+                          <span className="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                        </Button>
+                      </ButtonToolbar>
+                    </td>
+                  </tr>
+                ))
+                : <tr><td colSpan={3}><h3>No products</h3></td></tr>
             }
           </tbody>
         </Table>
@@ -154,61 +158,4 @@ class Products extends Component {
   }
 }
 
-const ProductModal = ({ show, onHide, product, onChangeName, onChangePrice, onSubmitForm }) => (
-  <Modal show={show} onHide={onHide} bsSize="large" aria-labelledby="contained-modal-title-lg">
-    <Modal.Header closeButton>
-      <Modal.Title id="contained-modal-title-lg">{ product.id ? 'Edit the product' : 'Create a new product' }</Modal.Title>
-    </Modal.Header>
-    <Form horizontal onSubmit={onSubmitForm}>
-      <Modal.Body>
-        <FormGroup controlId="formHorizontalEmail">
-          <Col componentClass={ControlLabel} sm={3}>
-            Product
-          </Col>
-          <Col sm={9}>
-            <FormControl 
-              type="text" 
-              value={product.name}
-              placeholder="Product name" 
-              onChange={onChangeName}
-            />
-          </Col>
-        </FormGroup>
-        <FormGroup controlId="formHorizontalPassword">
-          <Col componentClass={ControlLabel} sm={3}>
-            Price
-          </Col>
-          <Col sm={9}>
-            <FormControl 
-              type="text" 
-              value={product.price}
-              placeholder="0.99" 
-              onChange={onChangePrice}
-            />
-          </Col>
-        </FormGroup>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button type="submit" bsStyle="primary">{ product.id ? 'Save' : 'Create' }</Button>
-        <Button onClick={onHide}>Cancel</Button>
-      </Modal.Footer>
-    </Form>
-  </Modal>
-)
-
-const DeleteProductModal = ({ show, onHide, product, deleteProduct }) => (
-  <Modal show={show} onHide={onHide} bsSize="small" aria-labelledby="contained-modal-title-sm">
-    <Modal.Header closeButton>
-      <Modal.Title id="contained-modal-title-small">Are you sure to delete the product?</Modal.Title>
-    </Modal.Header>
-    <Modal.Body>
-      <p>"{product.name}" - {product.price}</p>
-    </Modal.Body>
-    <Modal.Footer>
-      <Button onClick={deleteProduct} bsStyle="danger">Yes</Button>
-      <Button onClick={onHide}>No</Button>
-    </Modal.Footer>
-  </Modal>
-)
-
-export default Products
+export default ProductList

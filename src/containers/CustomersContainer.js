@@ -6,9 +6,10 @@ import {
   editCustomer,
   removeCustomer
 } from '../actions/customers'
-import Customers from '../components/Customers'
+import CustomerList from '../components/customers/CustomerList'
 
 class CustomersContainer extends Component {
+  
   static propTypes = {
     customers: PropTypes.array.isRequired,
     isLoading: PropTypes.bool.isRequired,
@@ -25,8 +26,7 @@ class CustomersContainer extends Component {
     const { dispatch } = this.props
     if (customer.id)
       dispatch(editCustomer({ ...customer }))
-    else
-      dispatch(createCustomer({ ...customer }))
+    else dispatch(createCustomer({ ...customer }))
   }
 
   deleteCustomer(id) {
@@ -37,7 +37,7 @@ class CustomersContainer extends Component {
   render() {
     const { customers, isLoading, dispatch } = this.props
     return (
-      <Customers 
+      <CustomerList 
         customers={customers}
         isLoading={isLoading}
         createOrEditCustomer={this.createOrEditCustomer.bind(this)}
