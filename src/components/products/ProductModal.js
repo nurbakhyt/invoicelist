@@ -28,7 +28,7 @@ const ProductModal = ({ show, onHide, product, onChangeName, onChangePrice, onSu
           <Col sm={9}>
             <FormControl 
               type="text" 
-              value={product.price}
+              defaultValue={product.price}
               placeholder="0.99" 
               onChange={onChangePrice}
             />

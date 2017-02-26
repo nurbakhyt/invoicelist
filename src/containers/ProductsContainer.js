@@ -53,12 +53,6 @@ const mapStateToProps = store => ({
   isLoading: store.products.isLoading
 })
 
-// const mapDispatchToProps = dispatch => ({
-//   getProducts: () => {
-//     dispatch(fetchProducts())
-//   }
-// }) 
 export default connect(
   mapStateToProps
-  // mapDispatchToProps
 )(ProductsContainer)
